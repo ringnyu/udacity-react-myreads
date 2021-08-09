@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import { Route } from 'react-router'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-//import {books} from './books'
 import BookList from './BookList'
 import SearchBooks from './SearchBooks'
 import { Switch } from 'react-router-dom'
@@ -30,7 +29,8 @@ state ={
       (response) => {
         console.log("The response", response)
 
-        let updatedBooks = this.state.books.filter(response.id !== book.id)
+        let updatedBooks = this.state.books.filter(element => element.id !== book.id)
+        
         if(newShelf !== 'none'){
           book.shelf = newShelf
           updatedBooks.push(book)
@@ -50,18 +50,13 @@ state ={
             <BookList 
             books={books}    
             onChangeBookShelf={this.onChangeBookShelf}
-
             />
           )}>
           </Route>
 
           <Route path="/search" render={() => (<SearchBooks />)}>
           </Route>
-      </Switch>
-        
-
-        
-        
+      </Switch>        
   			
  		 </div>
     );

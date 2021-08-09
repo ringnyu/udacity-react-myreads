@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import Book from './Book'
+import BookShelf from './BookShelf';
 import { Link } from 'react-router-dom';
 
 class SearchBooks extends Component {
@@ -25,6 +26,7 @@ class SearchBooks extends Component {
 						<div>No results found</div>
 
 					: books.map((book,i) => {
+
 						return (
 							<li key={book.id}>
 										<Book 
@@ -46,7 +48,7 @@ class SearchBooks extends Component {
             console.log("The response", response)
             book.shelf = newShelf
             
-           let updatedBooks = this.state.books.filter(response.id !== book.id)
+           let updatedBooks = this.state.books.filter(element => element.id !== book.id)
             updatedBooks.push(book)
            console.log(updatedBooks)
 
@@ -57,8 +59,9 @@ class SearchBooks extends Component {
         )
       })
 	render (){
-		const {query} = this.state
 		
+		const {books, query} = this.state;
+		console.log(books)
     	return(
           <div className="search-books">
 
@@ -79,7 +82,10 @@ class SearchBooks extends Component {
 			  
 				  <div>
 					  <ol className="books-grid">
-					  	{this.showSearchResults()}
+					  {this.showSearchResults()}
+					  {/* <BookShelf books={books} title='moba' onChangeBookShelf={this.onChangeBookShelf}/> */}
+						
+					 
 					  </ol>
 				  </div>
 			  

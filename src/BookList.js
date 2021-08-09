@@ -8,6 +8,7 @@ class BookList extends Component {
 
 	render(){
         const books = this.props.books
+		const changebk = this.props.onChangeBookShelf
         const currentlyReading = books.filter((book)=>book.shelf==="currentlyReading")
         const wantToRead = books.filter((book)=>book.shelf==="wantToRead")
         const read = books.filter((book)=> book.shelf === "read")
@@ -19,11 +20,11 @@ class BookList extends Component {
           		</div>
           		<div className="list-books-content">
           			<div>
-                      <BookShelf books={currentlyReading} title="Currently Reading"/>
+                      <BookShelf books={currentlyReading} onChangeBookShelf={changebk} title="Currently Reading"/>
 
-                      <BookShelf books={wantToRead} title="Want To Read"/>
+                      <BookShelf books={wantToRead} onChangeBookShelf={changebk} title="Want To Read"/>
 
-                      <BookShelf books={read} title="Read"/>
+                      <BookShelf books={read} onChangeBookShelf={changebk} title="Read"/>
           			</div>
           		</div>
 
