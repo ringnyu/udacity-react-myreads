@@ -10,27 +10,29 @@ import { Switch } from 'react-router-dom'
 
 class BooksApp extends Component {
 state ={
-	books: [],
+    books: [],
+  searchResult: []
 };
-  
+
   componentDidMount(){
-  	BooksAPI.getAll().then ( books => {
-      console.log(books)
-    	this.setState({
-        	books: books
+      BooksAPI.getAll().then ( books => {
+        this.setState({
+            books: books
         })
     })
   }
- 
-  
+
+  handleSearchQuery = (event) => {
+        const { value } = event.target;
+        BooksAPI.search(value).then(books => {
+            return books ? this.setState({ searchResult: books }) : [];
+        })
+    }
 
   onChangeBookShelf = ((book,newShelf)=> {
     BooksAPI.update(book, newShelf).then(
       (response) => {
-        console.log("The response", response)
-
         let updatedBooks = this.state.books.filter(element => element.id !== book.id)
-        
         if(newShelf !== 'none'){
           book.shelf = newShelf
           updatedBooks.push(book)
@@ -40,25 +42,35 @@ state ={
       }
     )
   })
-  
+
   render(){
-   const {books} = this.state
-  	return (
-    	<div className="app">
+   const {books, searchResult} = this.state
+      return (
+        <div className="app">
       <Switch>
         <Route exact path="/" render={() => (
             <BookList 
-            books={books}    
-            onChangeBookShelf={this.onChangeBookShelf}
+              books={books}    
+              onChangeBookShelf={this.onChangeBookShelf}
             />
           )}>
           </Route>
 
-          <Route path="/search" render={() => (<SearchBooks />)}>
+          <Route path="/search" render={() => (
+          <SearchBooks 
+            books={ books } 
+            searchResult={searchResult } 
+            handleSearchQuery={this.handleSearchQuery} 
+            onChangeBookShelf={ this.onChangeBookShelf } 
+          />)}>
           </Route>
-      </Switch>        
-  			
- 		 </div>
+      </Switch>
+
+
+
+
+
+          </div>
     );
   }
 };

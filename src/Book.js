@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-//import PropTypes from 'prop-types'
 
 class Book extends Component {
   
   render (){
-    const {book,title, authors, imageLink, onChangeBookShelf} = this.props
+    const {book,title, authors, imageLink, onChangeBookShelf,shelf} = this.props
   	return (
     	<div className="book">
             <div className="book-top">
@@ -12,7 +11,7 @@ class Book extends Component {
                             <div className="book-shelf-changer">
                               <select
                                 onChange={(event)=>onChangeBookShelf(book, event.target.value)}
-                                value={book.shelf ? book.shelf:'none'}
+                                value={shelf}
                               >
                                 <option value="move" disabled>Move to...</option>
                                 <option value="currentlyReading">Currently Reading</option>
